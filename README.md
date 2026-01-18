@@ -41,24 +41,49 @@ AI делает:
 
 ---
 
-## Быстрый старт
+## Установка (один раз)
 
 ```bash
-# Клонируем
+# 1. Клонируем
 git clone https://github.com/yourusername/project-systematisator.git
+cd project-systematisator
 
-# Копируем global rules (один раз)
-cp project-systematisator/global.skills.md ~/.claude/global.skills.md
+# 2. Запускаем установку
+bash install.sh
+```
 
-# В любом проекте
-cd your-project
-bash ~/project-systematisator/templates/init-project.sh "YourProject"
+Установит в `~/.claude/`:
+- `global.skills.md` — глобальные правила
+- `templates/` — шаблоны для новых проектов
+- `scripts/` — скрипт автоиндексации
+
+---
+
+## Использование
+
+### В любом проекте:
+
+```bash
+cd my-project
+bash ~/.claude/templates/init-project.sh "MyProject"
 ```
 
 Создаст:
-- `CLAUDE.md` — навигация для AI
+- `CLAUDE.md` — навигация для AI (заполни роутинг)
 - `.claude/project.skills.md` — философия проекта
-- `.claude/settings.local.json` — permissions
+- `.claude/settings.local.json` — permissions для Claude Code
+
+### Для больших файлов (>200 строк):
+
+```bash
+# Сгенерировать индекс функций
+python ~/.claude/scripts/update-index.py src/lib/actions.ts
+
+# Найти все большие файлы в проекте
+python ~/.claude/scripts/update-index.py --find
+```
+
+Вставь результат в CLAUDE.md.
 
 ---
 
